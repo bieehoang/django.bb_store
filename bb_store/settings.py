@@ -134,7 +134,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/' #here is where django stored static data when run collectstatic command
+STATIC_ROOT = BASE_DIR/'static' #here is where django stored static data when run collectstatic command
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR/'media'
+STATICFILES_DIRS = [
+    'bb_store/static' # here is hint for Django find all file static then stored in disk
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
