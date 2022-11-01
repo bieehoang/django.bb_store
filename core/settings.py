@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'acounts', # notice Django acounts app
     'category', # category app
+    'store', # store
 ]
 
 # Notice Django will use acounts instead USER template default  
