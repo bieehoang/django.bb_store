@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'acounts', # notice Django acounts app
-    'category',
+    'category', # category app
 ]
 
 # Notice Django will use acounts instead USER template default  
@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'bb_store.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -80,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bb_store.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
