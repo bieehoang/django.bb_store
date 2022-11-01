@@ -44,7 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'acounts', # notice Django acounts app
 ]
+
+# Notice Django will use acounts instead USER template default  
+AUTH_USER_MODEL = 'acounts.Account'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,14 +86,6 @@ WSGI_APPLICATION = 'bb_store.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #    'ENGINE': env('django.db.backends.postgresql'),
-    #    'NAME': env('db_core'),
-    #    'USER': env('admin'),
-    #    'PASSWORD': env('1'),
-    #    'HOST': env('localhost'),
-    #    'PORT':env(''),
-    # }
     'default': {
         'ENGINE': env('DATABASE_ENGINE'),
         'NAME': env('DATABASE_NAME'),
@@ -135,11 +132,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/' #here is where django stored static data when run collectstatic command
-STATIC_ROOT = BASE_DIR/'static' #here is where django stored static data when run collectstatic command
+STATIC_ROOT = BASE_DIR #here is where django stored static data when run collectstatic command
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
 STATICFILES_DIRS = [
-    'bb_store/static' # here is hint for Django find all file static then stored in disk
+    '/home/bieehoang/AboutMe/Python/Projects/bb_store/static' # here is hint for Django find all file static then stored in disk
 ]
 
 # Default primary key field type
