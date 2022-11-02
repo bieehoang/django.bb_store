@@ -1,7 +1,8 @@
+import imp
 from django.shortcuts import render
-from django.http import HttpRequest, request
-from .models import Product
-def store(request):
+from store.models import Product
+
+def home(request):
     products = Product.objects.all().filter(is_available = True)
     context = {
         'products': products,
