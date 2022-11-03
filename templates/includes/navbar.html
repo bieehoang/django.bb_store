@@ -48,9 +48,9 @@
                         </div>
                     </div> <!-- category-wrap.// -->
                 </div> <!-- col.// -->
-                {% comment %} <a href="{% url 'store' %}" class="btn btn-outline-primary">Store</a> {% endcomment %}
+                <a href="{% url 'store' %}" class="btn btn-outline-primary">Store</a>
                 <div class="col-lg  col-md-6 col-sm-12 col">
-                    {% comment %} <form action="{% url 'search' %}" class="search" method="GET"> {% endcomment %}
+                    <form action="{% url 'search' %}" class="search" method="GET">
                         <div class="input-group w-100">
                             <input type="text" class="form-control" style="width:60%;" placeholder="Search" name="q" value="{{ q }}">
                             <div class="input-group-append">
@@ -67,20 +67,20 @@
                         <div class="widget-header">
                             <small class="title text-muted">Welcome guest!</small>
                             <div>
-                                {% comment %} <a href="{% url 'login' %}">Log in</a> <span class="dark-transp"> | </span> {% endcomment %}
-                                {% comment %} <a href="{% url 'register' %}"> Register</a> {% endcomment %}
+                                <a href="{% url 'login' %}">Log in</a> <span class="dark-transp"> | </span>
+                                <a href="{% url 'register' %}"> Register</a>
                             </div>
                         </div>
                         {% else %}
                         <div class="widget-header">
-                            {% comment %} <small class="title text-muted">Welcome {{ user.first_name }}!</small> {% endcomment %}
+                            <small class="title text-muted">Welcome {{ user.first_name }}!</small>
                             <div>
-                                {% comment %} <a href="{% url 'dashboard' %}">Dashboard</a> <span class="dark-transp"> | </span> {% endcomment %}
-                                {% comment %} <a href="{% url 'logout' %}"> Logout</a> {% endcomment %}
+                                <a href="{% url 'dashboard' %}">Dashboard</a> <span class="dark-transp"> | </span>
+                                <a href="{% url 'logout' %}"> Logout</a>
                             </div>
                         </div>
                         {% endif %}
-                        {% comment %} <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3"> {% endcomment %}
+                        <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
                             <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i>
                             </div>
                             <span class="badge badge-pill badge-danger notify">{{ cart_count }}</span>
