@@ -2,11 +2,11 @@ from django.shortcuts import render
 from django.http import HttpRequest, request
 from .models import Product
 from category.models import Category
-from cart.models import Cart, CartItem
+from cart.models import Cart
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
-from cart.views import _cart_id
 from django.db.models import Q 
+from cart.views import _cart_id
 
 def store(request, category_slug=None):
     """
@@ -32,7 +32,7 @@ def product_detail(request, category_slug, product_slug = None):
     # try:
     single_product = Product.objects.get(category_slug=category_slug, slug=product_slug)
     cart = Cart.objects.get(cart_id=_cart_id(request=request))
-    in_cart = CartItem.objects.filter(
+    in_cart = Cart.objects.filter(
         cart = cart,
         product = single_product
     ).exists()
@@ -47,11 +47,10 @@ def product_detail(request, category_slug, product_slug = None):
     return render(request, 'store/product_detail.html', context = context)
 
 def search(request):
-    if 'q' in request.GET:
-        q = request.GET.get('q')
-        products = Product.objects.order_by('-created_date').filter(Q(product_name__icontains=q) | Q(description_icontains=q))
-        product_count = products.count()
-    
+    # if 'q' in request.GET:
+    q = request.GET.get('q')
+    products = Product.objects.order_by('-created_date').filter(Q(product_name__icontains=q) | Q(description_icontains=q))
+    product_count = products.count()
     context = {
         'products': products,
         'q': q,
