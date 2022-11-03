@@ -6,7 +6,7 @@ from cart.models import Cart, CartItem
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from cart.views import _cart_id
-
+from django.db.models import Q 
 
 def store(request, category_slug=None):
     """
@@ -29,14 +29,32 @@ def store(request, category_slug=None):
     return render(request, 'store/store.html', context=context)
 
 def product_detail(request, category_slug, product_slug = None):
-    try:
-        single_product = Product.objects.get(category_slug=category_slug, slug=product_slug)
-        cart = Cart.objects.get(cart_id=_cart_id(request=request))
-        in_cart = CartItem.objects.filter(
-            cart =cart,
-            product=single_product
-        ).exists()
-    except Exception as e:
-        cart = Cart.objects.create(
-            cart_id =_cart_id(request)
-        )
+    # try:
+    single_product = Product.objects.get(category_slug=category_slug, slug=product_slug)
+    cart = Cart.objects.get(cart_id=_cart_id(request=request))
+    in_cart = CartItem.objects.filter(
+        cart = cart,
+        product = single_product
+    ).exists()
+    # except Exception as e:
+    #     cart = Cart.objects.create(
+    #         cart_id =_cart_id(request)
+    #     )
+    context = {
+        'single_product': single_product,
+        'in_cart': in_cart if 'in_cart' in locals() else False,
+    }
+    return render(request, 'store/product_detail.html', context = context)
+
+def search(request):
+    if 'q' in request.GET:
+        q = request.GET.get('q')
+        products = Product.objects.order_by('-created_date').filter(Q(product_name__icontains=q) | Q(description_icontains=q))
+        product_count = products.count()
+    
+    context = {
+        'products': products,
+        'q': q,
+        'product_count': product_count,
+    }
+    return render(request, 'store/store.html', context=context)
