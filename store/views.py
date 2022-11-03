@@ -4,6 +4,6 @@ from .models import Product
 def store(request):
     products = Product.objects.all().filter(is_available = True)
     context = {
-        'products': products,
+        'links': products,
     }
-    return render(request, 'home.html', context=context)
+    return render(request, 'navbar.html', context=context)
