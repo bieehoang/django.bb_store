@@ -6,7 +6,7 @@ class Category(models.Model):
     description = models.TextField(max_length=255, blank=True)
     category_image = models.ImageField(upload_to='photo/categories/', blank=True)
 
-    class Mete:
+    class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'
 

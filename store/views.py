@@ -52,8 +52,8 @@ def search(request):
         products = Product.objects.order_by('-created_date').filter(Q(product_name=q) | Q(description=q))
         product_count = products.count()
     context = {
-        'products': products,
         'q': q,
+        'products': products,
         'product_count': product_count,
     }
     return render(request, 'store/store.html', context=context)
