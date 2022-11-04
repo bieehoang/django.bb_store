@@ -47,10 +47,10 @@ def product_detail(request, category_slug, product_slug = None):
     return render(request, 'store/product_detail.html', context = context)
 
 def search(request):
-    # if 'q' in request.GET:
-    q = request.GET.get('q')
-    products = Product.objects.order_by('-created_date').filter(Q(product_name__icontains=q) | Q(description_icontains=q))
-    product_count = products.count()
+    if 'q' in request.GET:
+        q = request.GET.get('q')
+        products = Product.objects.order_by('-created_date').filter(Q(product_name=q) | Q(description=q))
+        product_count = products.count()
     context = {
         'products': products,
         'q': q,
