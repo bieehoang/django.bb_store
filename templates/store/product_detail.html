@@ -10,7 +10,7 @@
                 <aside class="col-md-6">
                     <article class="gallery-wrap">
                         <div class="img-big-wrap">
-                            <a href="#"><img src="{{ single_product.images.url }}" /></a>
+                            <a href="#"><img src="{{ single_product.image.url }}" /></a>
                         </div>
                         <!-- img-big-wrap.// -->
                     </article>
@@ -81,7 +81,7 @@
         <br />
         <div class="row">
             <div class="col-md-9">
-                <form action="{% url 'submit_review' single_product.id %}" method="POST">
+                {% comment %} <form action="{% url 'submit_review' single_product.id %}" method="POST"> {% endcomment %}
                     {% csrf_token %}
                     <h5>Write your review</h5>
                     <div>
