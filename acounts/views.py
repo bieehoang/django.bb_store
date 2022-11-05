@@ -1,12 +1,21 @@
-from django.shortcuts import redirect, render
-from django.contrib import auth, messages
-from django.contrib.auth.decorators import login_required
+from re import split
 from cart.models import Cart, CartItem
-from cart.views import _cart_id
+from django.shortcuts import redirect, render
+from django.contrib import messages, auth
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.core.mail import EmailMessage
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import default_token_generator
+
 from .forms import RegistrationForm
-# from account.models import Account
+from acounts.models import Account
+from cart.views import _cart_id
+
 def register(request):
-    if request.method == "GET":
+    if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
             first_name = form.cleaned_data['first_name']
@@ -16,12 +25,37 @@ def register(request):
             password = form.cleaned_data['password']
             username = email.split('@')[0]
 
-            # user = Account.objects.create_user(
-            #     f
-            # )
+            user = Account.objects.create_user(
+                first_name=first_name, last_name=last_name, email=email, username=username, password=password)
+            user.phone_number = phone_number
+            user.save()
+
+            current_site = get_current_site(request=request)
+            mail_subject = 'Activate your blog account.'
+            message = render_to_string('accounts/active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user)
+            })
+            send_email = EmailMessage(mail_subject, message, to=[email])
+            send_email.send()
+            messages.success(
+                request=request,
+                message="Please confirm your email address to complete the registration"
+            )
+            return redirect('register')
+        else:
+            messages.error(request=request, message="Register failed!")
+    else:
+        form = RegistrationForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/register.html', context)
 
 def login(request):
-    if request.mothod == "POST":
+    if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = auth.authenticate(email=email, password=password)
@@ -33,10 +67,10 @@ def login(request):
                     product_variation = []
                     for cart_item in cart_items:
                         variations = cart_item.variations.all # type: ignore
-                        product_variation.append(list(variations))
+                        product_variation.append(list(variations))  # type: ignore
                     cart_items = CartItem.objects.filter(user=user)
                     existing_variation_list = [list(item.vatiations.all()) for item in cart_items] #type: ignore
-                    id = [item.id for item in cart_items]
+                    id = [item.id for item in cart_items]  # type: ignore
 
                     for product in product_variation:
                         if product in existing_variation_list:
@@ -80,3 +114,25 @@ def logout(request):
     auth.logout(request)
     messages.success(request=request, message="Logged out!")
     return redirect('login')
+
+def activate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account.objects.get(pk=uid)
+    except Exception:
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(
+            request=request, message="Your account is activated, please login!")
+        return render(request, 'accounts/login.html')
+    else:
+        messages.error(request=request, message="Activation link is invalid!")
+        return redirect('home')
+
+
+@login_required(login_url="login")
+def dashboard(request):
+    return render(request, "accounts/dashboard.html")
