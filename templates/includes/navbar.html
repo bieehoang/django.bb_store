@@ -68,7 +68,7 @@
                             <small class="title text-muted">Welcome guest!</small>
                             <div>
                                 <a href="{% url 'login' %}">Log in</a> <span class="dark-transp"> | </span>
-                                <a href="{% url 'register' %}"> Register</a>
+                                {% comment %} <a href="{% url 'register' %}"> Register</a> {% endcomment %}
                             </div>
                         </div>
                         {% else %}

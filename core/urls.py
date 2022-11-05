@@ -5,7 +5,7 @@ from . import views
 from django.conf.urls.static import static 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('store/', include('store.urls')),
     path('carts/', include('cart.urls')),
