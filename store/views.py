@@ -41,8 +41,8 @@ def product_detail(request, category_slug, product_slug = None):
             cart_id =_cart_id(request)
         )
     context = {
-        'single_product': single_product,
-        'in_cart': in_cart if 'in_cart' in locals() else False,
+        'single_product': single_product, #type: ignore
+        'in_cart': in_cart if 'in_cart' in locals() else False, #type: ignore 
     }
     return render(request, 'store/product_detail.html', context = context)
 
@@ -52,8 +52,8 @@ def search(request):
         products = Product.objects.order_by('-created_date').filter(Q(product_name=q) | Q(description=q))
         product_count = products.count()
     context = {
-        'q': q,
-        'products': products,
-        'product_count': product_count,
+        'q': q, #type: ignore
+        'products': products, #type: ignore
+        'product_count': product_count,#type: ignore
     }
     return render(request, 'store/store.html', context=context)
