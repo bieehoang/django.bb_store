@@ -78,12 +78,12 @@ def login(request):
                             item_id = id[index]
                             item = CartItem.objects.get(id=item_id)
                             item.quantity += 1
-                            item.user = user
+                            item.user = user #type: ignore
                             item.save()
                         else: 
                             cart_items = CartItem.objects.filter(cart=cart)
                             for item in cart_items:
-                                item.user = user
+                                item.user = user #type: ignore
                                 item.save()
 
             except Exception:
@@ -104,8 +104,8 @@ def login(request):
         else:
             messages.error(request=request, message="Login Failed")
     context = {
-        'email': email if 'email' in locals() else '',
-        'password': password if 'password' in locals() else '',
+        'email': email if 'email' in locals() else '', #type: ignore
+        'password': password if 'password' in locals() else '', #type: ignore
     }
     return render(request, 'accounts/login.html', context = context)
 
