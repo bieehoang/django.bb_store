@@ -51,7 +51,8 @@
                             </div>
                             <!-- row.// -->
                             <hr />
-                            {% if single_product.stock > 0 %} {% if in_cart %}
+                            {% if single_product.stock > 0 %} 
+                            {% if in_cart %}
                             <button type="submit" class="btn btn-success">
                                 <span class="text">Add to cart</span>
                                 <i class="fas fa-check"></i>
@@ -65,8 +66,9 @@
                                 <span class="text">Add to cart</span>
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
-                            {% endif %} {% else %}
-                            <h5 class="text-danger">Out of Stock</h5>
+                            {% endif %} 
+                            {% else %}
+                                <h5 class="text-danger">Out of Stock</h5>
                             {% endif %}
                         </article>
                         <!-- product-info-aside .// -->
