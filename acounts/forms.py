@@ -1,6 +1,4 @@
 from django import forms
-from django.forms import CharField
-from django.forms import widgets
 from .models import Account
 
 class RegistrationForm(forms.ModelForm):
@@ -16,7 +14,7 @@ class RegistrationForm(forms.ModelForm):
     }))
 
     class Meta:
-        models = Account
+        model = Account
         fields = [
             'first_name', 'last_name', 'phone_number', 'email', 'password'
         ]
