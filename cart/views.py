@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import request
 from django.shortcuts import redirect
 from cart.models import Cart, CartItem
-from store.models import Product
+from store.models import Product, Variation
 from django.core.exceptions import ObjectDoesNotExist
+
 def _cart_id(request):
     cart_id = request.session.session_key
     if not cart_id:
@@ -11,8 +12,23 @@ def _cart_id(request):
     return cart_id
 
 def add_cart(request, product_id):
-    product = Product.objects.get(id=product_id)
-    return redirect('cart')
+    current_user = request.user
+    product =  Product.objects.get(id=product_id)
+    if current_user.is_authenticated:
+        product_variations = list()
+        if request.method == 'POST':
+            for item in request.POST:
+                key = item
+                value = request.POST.get(key)
+                try:
+                    variation = Variation.objects.get(product=product, variation_category__iexact=key, variation_value__iexact=value)
+                    product_variations.append(variation)
+                except ObjectDoesNotExist:
+                    pass
+        
+        is_exists_cart_item = CartItem.objects.filter(product=product, user=current_user).exists()
+
+            
 
 def cart(request, total=0, quantity=0, cart_item=None):
     try: 
