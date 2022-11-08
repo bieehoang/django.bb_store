@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpRequest, request
 from .models import Product
 from category.models import Category
 from cart.models import Cart, CartItem
@@ -49,8 +48,8 @@ def product_detail(request, category_slug, product_slug = None):
     # reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
 
     context = {
-        'single_product': single_product,
-        'in_cart': in_cart if 'in_cart' in locals() else False,
+        'single_product': single_product, #type: ignore
+        'in_cart': in_cart if 'in_cart' in locals() else False, #type:ignore
         # 'orderproduct': orderproduct,
         # 'reviews': reviews,
     }

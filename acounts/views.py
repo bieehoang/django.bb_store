@@ -9,7 +9,6 @@ from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
-
 from .forms import RegistrationForm
 from acounts.models import Account
 from cart.views import _cart_id
