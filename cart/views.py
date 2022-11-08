@@ -76,7 +76,7 @@ def add_cart(request, product_id):
         cart.save()
         is_exists_cart_item = CartItem.objects.filter(product=product, cart=cart).exists()
         if is_exists_cart_item:
-            cart_items = Cart.objects.filter(
+            cart_items = CartItem.objects.filter(
                 product=product,
                 cart=cart
             )
