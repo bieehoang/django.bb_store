@@ -50,10 +50,10 @@
 									<div class="col">
 										<div class="input-group input-spinner">
 											<div class="input-group-prepend">
-												<a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}"
+												{% comment %} <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}"
 													class="btn btn-light" type="button">
 													<i class="fa fa-minus"></i>
-												</a>
+												</a> {% endcomment %}
 											</div>
 											<input type="text" class="form-control" value="{{ cart_item.quantity }}" />
 											<div class="input-group-append">
@@ -83,9 +83,9 @@
 									<!-- price-wrap .// -->
 								</td>
 								<td class="text-right">
-									<a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}"
+									{% comment %} <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}"
 										class="btn btn-danger" onclick="return confirm('Are you sure?')">
-										Remove</a>
+										Remove</a> {% endcomment %}
 								</td>
 							</tr>
 							{% endfor %}
@@ -116,7 +116,7 @@
 						<p class="text-center mb-3">
 							<img src="{% static 'images/misc/payments.png' %}" height="26" />
 						</p>
-						<a href="{% url 'checkout' %}" class="btn btn-primary btn-block">
+						{% comment %} <a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> {% endcomment %}
 							Checkout
 						</a>
 						<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
