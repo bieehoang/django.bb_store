@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'category', # category app
     'store', # store
     'cart', #cart
+    'orders',
 ]
 
 # Notice Django will use acounts instead USER template default  

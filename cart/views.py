@@ -28,9 +28,9 @@ def cart(request, total=0, quantity=0, cart_item=None):
     context = {
         'total': total,
         'quantity': quantity,
-        'cart_items': cart_items,
-        'tax': tax if "tax" in locals() else "",
-        'grand_total': grand_total
+        'cart_items': cart_items, #type: ignore
+        'tax': tax if "tax" in locals() else "", #type: ignore
+        'grand_total': grand_total #type: ignore
     }
     return render(request, 'store/cart.html', context=context)
 
@@ -57,7 +57,7 @@ def add_cart(request, product_id):
                 user = current_user,
             )
             existing_variation_list = [list(item.variations.all()) for item in cart_items]
-            id = [item.id for item in cart_items]
+            id = [item.id for item in cart_items] #type: ignore
             if product_variations in existing_variation_list:
                 index = existing_variation_list.index(product_variations)
                 cart_item = CartItem.objects.get(id=id[index])
@@ -105,7 +105,7 @@ def add_cart(request, product_id):
                 cart=cart
             )
             existing_variation_list = [list(item.variations.all()) for item in cart_items]
-            id = [item.id for item in cart_items]
+            id = [item.id for item in cart_items] #type: ignore
             if product_variations in existing_variation_list:
                 index = existing_variation_list.index(product_variations)
                 cart_item = CartItem.objects.get(id=id[index])
