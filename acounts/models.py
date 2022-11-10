@@ -49,8 +49,8 @@ class Account(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'username' # Field required when login
-    REQUIRED_FIELDS = ['first_name', 'last_name'] # Fields required when register, default form is have gmail, password
+    USERNAME_FIELD = 'email' # Field required when login
+    REQUIRED_FIELDS = ['username','first_name', 'last_name'] # Fields required when register, default form is have gmail, password
     
     objects = MyAccountManager()
 
