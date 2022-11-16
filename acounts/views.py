@@ -141,8 +141,7 @@ def forgotPassword(request):
     try:
         if request.method == 'POST':
             email = request.POST.get('email')
-            user = Account.objects.get(email__exact=email)
-
+            user = Account.objects.get(email_exact=email)
             current_site = get_current_site(request=request)
             mail_subject = 'Reset your password'
             message = render_to_string(
@@ -155,7 +154,6 @@ def forgotPassword(request):
             )
             send_email = EmailMessage(mail_subject, message, to=[email])
             send_email.send()
-
             messages.success(
                 request=request, message='Password reset email has sent to your email address'
             )
@@ -163,6 +161,23 @@ def forgotPassword(request):
         messages.error(request=request, message='Account does not exist')
     finally:
         context = {
-            'email': email if 'email' in locals() else '',
+            'email': email if 'email' in locals() else '', #type: ignore
         }
         return render(request, 'accounts/forgotPassword.html', context=context)
+
+
+def reset_password(request):
+    if request.method == "POST":
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        if password == confirm_password:
+            uid =  request.session.get('uid')
+            user = Account.objects.get(pk=uid)
+            user.set_password(password)
+            user.save()
+            messages.success(request=request, message='Password reset successful')
+            return redirect('login')
+        else:
+            messages.error(request=request, message="Password does not match")
+    return render(request, 'accounts/reset_password.html')
