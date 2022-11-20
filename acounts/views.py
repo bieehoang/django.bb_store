@@ -99,7 +99,6 @@ def login(request):
                     return redirect(next_page)
             except Exception:
                 return redirect('dashboard')
-        
         else:
             messages.error(request=request, message="Login Failed")
     context = {
