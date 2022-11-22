@@ -84,7 +84,6 @@ def login(request):
                             for item in cart_items:
                                 item.user = user #type: ignore
                                 item.save()
-
             except Exception:
                 pass
             auth.login(request=request, user=user)
@@ -140,7 +139,7 @@ def forgotPassword(request):
     try:
         if request.method == 'POST':
             email = request.POST.get('email')
-            user = Account.objects.get(email_exact=email)
+            user = Account.objects.get(email__exact=email)
             current_site = get_current_site(request=request)
             mail_subject = 'Reset your password'
             message = render_to_string(
@@ -164,7 +163,19 @@ def forgotPassword(request):
         }
         return render(request, 'accounts/forgotPassword.html', context=context)
 
-
+def reset_password_validate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account.objects.get(pk=uid)
+    except Exception:
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        request.session['uid'] = uid
+        messages.info(request=request, message='Please reset your password')
+        return redirect('reset_password')
+    else:
+        messages.error(request=request, message="This link has been expired!")
+        return redirect('home')
 def reset_password(request):
     if request.method == "POST":
         password = request.POST.get('password')
