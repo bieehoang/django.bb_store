@@ -1,4 +1,3 @@
-from re import split
 from cart.models import Cart, CartItem
 from django.shortcuts import redirect, render
 from django.contrib import messages, auth
@@ -10,7 +9,7 @@ from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from .forms import RegistrationForm
-from acounts.models import Account
+from .models import Account
 from cart.views import _cart_id
 
 def register(request):
@@ -97,7 +96,7 @@ def login(request):
                     next_page = params["next"]
                     return redirect(next_page)
             except Exception:
-                return redirect('dashboard')
+                return redirect('home')
         else:
             messages.error(request=request, message="Login Failed")
     context = {
@@ -134,34 +133,32 @@ def activate(request, uidb64, token):
 def dashboard(request):
     return render(request, "accounts/dashboard.html")
 
-
 def forgotPassword(request):
     try:
         if request.method == 'POST':
             email = request.POST.get('email')
-            user = Account.objects.get(email__exact=email)
+            user = Account.objects.get(email=email)
+
             current_site = get_current_site(request=request)
             mail_subject = 'Reset your password'
-            message = render_to_string(
-                'accounts/reset_password_email.html', {
-                    'user': user,
-                    'domain': current_site,
-                    'uid': urlsafe_base64_decode(force_bytes(user.pk)),
-                    'token': default_token_generator.make_token(user),
-                }
-            )
+            message = render_to_string('accounts/reset_password_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user)
+            })
             send_email = EmailMessage(mail_subject, message, to=[email])
             send_email.send()
+
             messages.success(
-                request=request, message='Password reset email has sent to your email address'
-            )
+                request=request, message="Password reset email has been sent to your email address")
     except Exception:
-        messages.error(request=request, message='Account does not exist')
+        messages.error(request=request, message="Account does not exist!")
     finally:
         context = {
-            'email': email if 'email' in locals() else '', #type: ignore
+            'email': email if 'email' in locals() else '',
         }
-        return render(request, 'accounts/forgotPassword.html', context=context)
+    return render(request, "accounts/forgotPassword.html", context=context)
 
 def reset_password_validate(request, uidb64, token):
     try:
@@ -169,6 +166,7 @@ def reset_password_validate(request, uidb64, token):
         user = Account.objects.get(pk=uid)
     except Exception:
         user = None
+
     if user is not None and default_token_generator.check_token(user, token):
         request.session['uid'] = uid
         messages.info(request=request, message='Please reset your password')
@@ -176,6 +174,7 @@ def reset_password_validate(request, uidb64, token):
     else:
         messages.error(request=request, message="This link has been expired!")
         return redirect('home')
+
 def reset_password(request):
     if request.method == "POST":
         password = request.POST.get('password')

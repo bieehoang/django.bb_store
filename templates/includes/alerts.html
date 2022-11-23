@@ -3,7 +3,9 @@
 {% if messages %}
 <div class="messages" id="alert-messages">
     {% for message in messages %}
-    <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+    <div {% if message.tags %} 
+        class="alert alert-{{ message.tags }}" 
+        {% endif %} role="alert">
         {% if message.level == DEFAULT_MESSAGE_LEVELS_ERROR %}
         Error:
         {% endif %}
