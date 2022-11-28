@@ -6,10 +6,10 @@
 	<div class="container">
 		<!-- ============================ COMPONENT 1 ================================= -->
 		{% if not cart_items %}
-		<h2 class="text-center">Your shopping cart is empty</h2>
+		<h2 class="text-center">Chưa có sản phẩm nào trong giỏ hàng của bạn</h2>
 		<br />
 		<div class="text-center">
-			<a href="{% url 'store' %}" class="btn btn-primary">Continue Shopping</a>
+			<a href="{% url 'store' %}" class="btn btn-primary">Quay trở lại cửa hàng</a>
 		</div>
 		{% else %}
 		<div class="row">
@@ -18,9 +18,9 @@
 					<table class="table table-borderless table-shopping-cart">
 						<thead class="text-muted">
 							<tr class="small text-uppercase">
-								<th scope="col">Product</th>
-								<th scope="col" width="120">Quantity</th>
-								<th scope="col" width="120">Price</th>
+								<th scope="col">Sản phẩm</th>
+								<th scope="col" width="120">Số lượng</th>
+								<th scope="col" width="120">Giá tiền</th>
 								<th scope="col" class="text-right" width="200"></th>
 							</tr>
 						</thead>
@@ -75,9 +75,9 @@
 								</td>
 								<td>
 									<div class="price-wrap">
-										<var class="price">${{ cart_item.sub_total }}</var>
+										<var class="price">{{ cart_item.sub_total }}VND</var>
 										<small class="text-muted">
-											${{ cart_item.product.price }} each
+											{{ cart_item.product.price }} VND/SP 
 										</small>
 									</div>
 									<!-- price-wrap .// -->
@@ -85,7 +85,7 @@
 								<td class="text-right">
 									<a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" 
 										class="btn btn-danger" onclick="return confirm('Are you sure?')">
-										Remove</a> 
+										Xóa sản phẩm</a> 
 								</td>
 							</tr>
 							{% endfor %}
@@ -99,17 +99,18 @@
 				<div class="card">
 					<div class="card-body">
 						<dl class="dlist-align">
-							<dt>Total price:</dt>
-							<dd class="text-right">${{ total }}</dd>
+							<dt></dt>
+							<dd class="text-right">{{ total }}VND</dd>
 						</dl>
 						<dl class="dlist-align">
-							<dt>Tax:</dt>
-							<dd class="text-right">${{ tax }}</dd>
+							<dt>Giao hàng</dt>
+							<dd class="text-right">Tùy chọn giao hàng sẽ được cập nhật </dd>
+							{% comment %} <dd class="text-right">{{ tax }}VND</dd> {% endcomment %}
 						</dl>
 						<dl class="dlist-align">
-							<dt>Total:</dt>
+							<dt>Tổng</dt>
 							<dd class="text-right text-dark b">
-								<strong>${{ grand_total }}</strong>
+								<strong>{{ grand_total }}VND</strong>
 							</dd>
 						</dl>
 						<hr />
@@ -117,9 +118,9 @@
 							<img src="{% static 'images/misc/payments.png' %}" height="26" />
 						</p>
 						<a href="{% url 'checkout' %}" class="btn btn-primary btn-block">
-							Checkout
+							Tiến hành thanh toán	
 						</a>
-						<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
+						<a href="{% url 'store' %}" class="btn btn-light btn-block">Tiếp tục xem sản phẩm</a>
 					</div>
 					<!-- card-body.// -->
 				</div>
