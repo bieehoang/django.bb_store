@@ -52,7 +52,7 @@ class Account(AbstractBaseUser):
 
     USERNAME_FIELD = 'email' # Field required when login
     REQUIRED_FIELDS = ['username','first_name', 'last_name'] # Fields required when register, default form is have gmail, password
-    
+    # get_all_permissions = True
     objects = MyAccountManager()
 
     def __str__(self):
