@@ -28,7 +28,11 @@
                     <a href="{{ product.get_url }}" class="img-wrap"> <img src="{{ product.image.url }}"> </a>
                     <figcaption class="info-wrap">
                         <a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
+                        {% comment %} <div class="price mt-1"><del>{{ product.price_sf }} </del> VND</div> <!-- price-wrap.// --> {% endcomment %}
                         <div class="price mt-1">{{ product.price }} VND</div> <!-- price-wrap.// -->
+                        <a href="{{ product.get_url }}" class "title mt-8"> 
+                            <button type='button' class='btn btn-outline-primary'> Xem chi tiết sản phẩm</button>
+                        </a>
                     </figcaption>
                 </div>
             </div> <!-- col.// -->
