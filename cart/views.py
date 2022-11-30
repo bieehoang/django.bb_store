@@ -24,7 +24,8 @@ def cart(request, total=0, quantity=0, cart_item=None):
         tax = total * 2/100
         grand_total = total + tax
     except ObjectDoesNotExist:
-        pass
+        cart_items = ''
+        grand_total = 0
     context = {
         'total': total,
         'quantity': quantity,
@@ -190,7 +191,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
         'total': total,
         'quantity': quantity,
         'cart_items': cart_items,
-        'tax': tax if "tax" in locals() else '',
-        'grand_total': grand_total,
+        'tax': tax if "tax" in locals() else '', #type: ignore
+        'grand_total': grand_total,#type: ignore
     }
     return render(request, 'store/checkout.html', context=context)

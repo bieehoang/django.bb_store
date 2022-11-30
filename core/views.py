@@ -1,4 +1,3 @@
-import imp
 from django.shortcuts import render
 from store.models import Product
 
